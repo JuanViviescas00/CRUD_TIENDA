@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora escolar</title>
+</head>
+
+<body>
+    <h1>Sistema de Notas v1.0</h1>
+
+    <p>Ingresa tus notas separadas por coma (Ej: 3.5, 4.0, 5.0)</p>
+    <input type="text" id="inputNotas" placeholder="3.0, 4.5, 2.0">
+    <button onclick="procesarNotas()">Calcular Definitiva</button>
+
+    <h2 id="resultado"> Esperando Calculo...</h2>
+    <p id="mensajeEstado"></p>
+
+
+    <script>
+
+        function procesarNotas() {
+            let entrada = document.getElementById("inputNotas").value;
+            // Se parsea el arreglo de notas porque el input es un string, se convierte con un .map y lo guarde en el array
+            // de un string a un float(numero con decimales).
+            let notas = entrada.split(",").map(nota => parseFloat(nota));
+            // Se saca la variable sumaTotal para el calculo del promedio, para que la funcion guarde el resultado en la varibley se reinicie en cada "reinicio".
+            let sumaTotal = 0;
+            let cantidad = notas.length;
+
+            // Se corrige y simplifica el bucle para que recorra el arreglo sin que pase de la cantidad de notas ingresadas
+            for (let i = 0; i < cantidad; i++) {
+                sumaTotal += notas[i];
+            }
+
+            // Se hace el cambio de suma a division para calcular el promedio
+            let promedio = sumaTotal / cantidad;
+            let etiqueta = document.getElementById("resultado");
+            let estado = document.getElementById("mensajeEstado");
+
+
+            // Se cambia el condicional para que el valor minimo de aprobacion sea mayor o igual a 3.0
+           //Se agrega el .toFixed(2) para que el promedio se muestre con dos decimales           
+            if (promedio < 3.0) {
+                etiqueta.innerHTML = "Tupromedio es: " + promedio.toFixed(2);
+                estado.innerHTML = "Lo siento, has reprobado la materia.";
+                estado.style.color = "red";
+            } else {
+                etiqueta.innerHTML = "Tu promedio es: " + promedio.toFixed(2);
+                estado.innerHTML = "¡Felicidades! Aprobaste.";
+                estado.style.color = "green";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
